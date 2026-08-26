@@ -1,0 +1,329 @@
+<title>SlamDunk Technologies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-950: #0a0e1f;
+    --navy-900: #0d1226;
+    --navy-700: #1c2547;
+    --ink: #e9ecf7;
+          --ink-dim: #aab1d1;
+          --ink-faint: #7b83a8;
+    --violet: #8b6cf0;
+    --blue: #4f8ef7;
+    --white: #ffffff;
+          --gradient: linear-gradient(90deg, var(--violet), var(--blue));
+}
+
+  * { box-sizing: border-box; }
+
+  html, body {
+        margin: 0;
+    padding: 0;
+    background: var(--navy-950);
+    color: var(--ink);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+  h1, h2, .display {
+        font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    text-wrap: balance;
+}
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+        max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 48px 56px;
+}
+
+  .hero {
+        display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 720px;
+}
+
+  .hero-copy {
+        display: flex;
+    flex-direction: column;
+    gap: 26px;
+    justify-content: center;
+    padding: 32px 10px 32px 0;
+}
+
+  .brand {
+        display: flex;
+    align-items: center;
+    gap: 17.3px;
+    margin-bottom: 4px;
+}
+
+  .brand-mark {
+        width: 56.9px;
+    height: 56.9px;
+    border-radius: 17.3px;
+    background: var(--navy-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    overflow: hidden;
+}
+
+  .brand-mark img {
+        width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+  .brand-text h1 {
+        font-size: 27.2px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}
+
+  .brand-text h1 .accent {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .brand-text h1 .brand-suffix {
+        background: linear-gradient(90deg, #9aa1c2, #5c6389);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+  .brand-sub {
+        font-size: 13.6px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #e8eaf3;
+        margin-top: 2px;
+}
+
+  .headline {
+        font-size: clamp(39.4px, 3.66vw, 53.4px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+    white-space: nowrap;
+}
+
+  .headline .grad {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+        font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 44ch;
+    margin: 0;
+}
+
+  .lede .hl {
+    color: #b9a6ff;
+        font-weight: 600;
+  }
+
+  .features {
+        display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+  .feature {
+        display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+  .feature-icon {
+        width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(139,108,240,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(139,108,240,0.08);
+}
+
+  .feature-icon svg {
+        width: 21.25px;
+    height: 21.25px;
+    stroke: #ffffff;
+    }
+
+  .feature h3 {
+        font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+    color: var(--ink);
+}
+
+  .feature p.tight {
+    font-size: 13.5px;
+  }
+
+  .feature p {
+        font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: none;
+}
+
+  .cta-row {
+        display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 4px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.09);
+}
+
+  .cta-text {
+        font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+}
+
+  .cta-text strong {
+        color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+  .cta-text strong.cta-grad {
+        background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+  .cta-button {
+        display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gradient);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14.5px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 10px 28px rgba(107,90,240,0.35);
+}
+
+  .hero-photo-frame {
+        position: relative;
+    overflow: hidden;
+    clip-path: polygon(9% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+  .hero-photo-frame img {
+        position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+}
+
+  @media (max-width: 980px) {
+    .page { padding: 28px 20px 40px; }
+    .hero { grid-template-columns: 1fr; min-height: 0; }
+    .hero-copy { padding: 0 0 24px; }
+    .hero-photo-frame { clip-path: none; min-height: 360px; }
+}
+</style>
+
+  <div class="page">
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="brand">
+          <div class="brand-mark"><img src="assets/dogicon.jpg" alt="SlamDunk logo"></div>
+          <div class="brand-text">
+            <h1>SLAM<span class="accent">DUNK</span> <span class="brand-suffix">TECHNOLOGIES</span></h1>
+            <div class="brand-sub">POWERED BY BUDDYFETCH.AI</div>
+          </div>
+        </div>
+
+        <h2 class="headline">
+          Your AI Team.<br>
+          <span class="grad">Working for You.</span>
+        </h2>
+        <p class="lede">
+          SlamDunk deploys intelligent BuddyFetch AI agents that plan, act, and deliver&mdash;<span class="hl">autonomously</span>.
+          So your team can focus on what matters most.
+        </p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3.5l3 3-9.5 9.5 1.5 1.5L10.5 8l3 3"/>
+              <path d="M14 2.5l7.5 7.5-2 2L12 4.5z"/>
+              <path d="M2.5 21.5l3-3"/>
+            </svg></div>
+            <div>
+              <h3>AI-Optimized Workflows</h3>
+              <p class="tight">Using your existing Apps for transparant performance.</p>
+          </div>
+        </div>
+          <div class="feature">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2" fill="#ffffff"/></svg></div>
+            <div>
+              <h3>Autonomous Agents</h3>
+              <p>Handle complex tasks from start to finish.</p>
+          </div>
+        </div>
+          <div class="feature">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="10.5" cy="13.5" r="9"/><circle cx="10.5" cy="13.5" r="5.7"/><circle cx="10.5" cy="13.5" r="2.2" fill="#ffffff"/><path d="M21 3 14 10M18.2 3.8l-1.7 1.7M20.2 5.8l-1.7 1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div>
+              <h3>Reliable. Scalable. Smart.</h3>
+              <p>Consistency in results, 24/7. Built to scale.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg></div>
+            <div>
+              <h3>Secure &amp; Compliant</h3>
+              <p>Enterprise-grade security you can trust.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <div class="cta-text">
+            Work Smarter. More Fun. Deliver Faster. <strong class="cta-grad">That's a SlamDunk!</strong>
+          </div>
+          <a class="cta-button" href="#" onclick="return false;">Book a Demo <span>&rarr;</span></a>
+        </div>
+      </div>
+
+      <div class="hero-photo-frame">
+        <img src="assets/hero.jpg" alt="BuddyFetch AI agents at work in a modern office">
+      </div>
+    </div>
+  </div>
+  
