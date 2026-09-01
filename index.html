@@ -60,20 +60,9 @@
     padding: 32px 10px 32px 0;
 }
 
-  /* Continue the navy panel over the photo's clipped corner so the
-     boundary is one clean, matching diagonal and no headline fragment leaks through. */
-  .hero-copy::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: calc(-1 * var(--diagonal-cut));
-    width: var(--diagonal-cut);
-    height: 100%;
-    background: var(--navy-950);
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    pointer-events: none;
-    z-index: 3;
-  }
+  /* The photo stays rectangular; one navy overlay owns the diagonal seam.
+     This avoids two anti-aliased clip paths leaving a visible sliver. */
+  .hero-copy::after { display: none; }
 
   .brand {
         display: flex;
@@ -256,8 +245,20 @@
         position: relative;
     z-index: 1;
     overflow: hidden;
-    clip-path: polygon(var(--diagonal-cut) 0%, 100% 0%, 100% 100%, 0% 100%);
 }
+
+  .hero-photo-frame::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--diagonal-cut) + 2px);
+    height: 100%;
+    background: var(--navy-950);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
 
   .hero-photo-frame img {
         position: absolute;
@@ -273,8 +274,8 @@
     .page { padding: 28px 20px 40px; }
     .hero { grid-template-columns: 1fr; min-height: 0; }
     .hero-copy { padding: 0 0 24px; }
-    .hero-copy::after { display: none; }
-    .hero-photo-frame { clip-path: none; min-height: 360px; }
+    .hero-photo-frame { min-height: 360px; }
+    .hero-photo-frame::before { display: none; }
 }
 </style>
 
