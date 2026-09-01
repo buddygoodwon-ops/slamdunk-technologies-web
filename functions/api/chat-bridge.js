@@ -10,11 +10,53 @@
  *
  * Self-contained (no npm deps, no KV bindings) so it deploys with the site via git push.
  * Secrets come from Cloudflare Pages env vars:
- *   VAPI_API_KEY, VAPI_ASSISTANT_ID, CHATWOOT_API_TOKEN, CHATWOOT_ACCOUNT_ID, CHATWOOT_WEBHOOK_SECRET
+ *   VAPI_API_KEY, VAPI_ASSISTANT_ID, CHATWOOT_ACCOUNT_ID, CHATWOOT_WEBHOOK_SECRET,
+ *   CHATWOOT_SESSION_EMAIL, CHATWOOT_SESSION_PASSWORD (session auth with auto re-login,
+ *   because Chatwoot Cloud gates the persistent Application API token per account)
  */
 
 const SLAMDUNK_INBOX_ID = 133705;
 const MAX_HISTORY = 24;
+const CHATWOOT_BASE = 'https://app.chatwoot.com';
+
+// Cached devise_token_auth session for the Chatwoot worker account
+let sessionCache = null; // { headers, expiresAt }
+
+async function getChatwootSession(env) {
+  if (sessionCache && Date.now() < sessionCache.expiresAt) return sessionCache.headers;
+  const email = env.CHATWOOT_SESSION_EMAIL;
+  const password = env.CHATWOOT_SESSION_PASSWORD;
+  if (!email || !password) throw new Error('chatwoot session not configured');
+  const res = await fetch(`${CHATWOOT_BASE}/auth/sign_in`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) throw new Error(`chatwoot login ${res.status}`);
+  const headers = {
+    'access-token': res.headers.get('access-token') || '',
+    client: res.headers.get('client') || '',
+    uid: res.headers.get('uid') || '',
+    'token-type': 'Bearer',
+  };
+  const expiry = Number(res.headers.get('expiry')) * 1000 || Date.now() + 14 * 24 * 3600 * 1000;
+  sessionCache = { headers, expiresAt: Math.min(expiry - 60_000, Date.now() + 6 * 24 * 3600 * 1000) };
+  return headers;
+}
+
+async function chatwootApi(env, path, options = {}) {
+  const doCall = async (headers) =>
+    fetch(`https://app.chatwoot.com/api/v1/accounts/${env.CHATWOOT_ACCOUNT_ID}${path}`, {
+      ...options,
+      headers: { ...headers, 'content-type': 'application/json', ...(options.headers || {}) },
+    });
+  let res = await doCall(await getChatwootSession(env));
+  if (res.status === 401 || res.status === 403) {
+    sessionCache = null;
+    res = await doCall(await getChatwootSession(env));
+  }
+  return res;
+}
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -28,7 +70,6 @@ export async function onRequestPost(context) {
   const {
     VAPI_API_KEY,
     VAPI_ASSISTANT_ID,
-    CHATWOOT_API_TOKEN,
     CHATWOOT_ACCOUNT_ID,
     CHATWOOT_WEBHOOK_SECRET,
   } = env;
@@ -39,7 +80,7 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: 'unauthorized' }, 401);
   }
 
-  if (!VAPI_API_KEY || !VAPI_ASSISTANT_ID || !CHATWOOT_API_TOKEN || !CHATWOOT_ACCOUNT_ID) {
+  if (!VAPI_API_KEY || !VAPI_ASSISTANT_ID || !CHATWOOT_ACCOUNT_ID) {
     return json({ ok: false, error: 'bridge not configured' }, 500);
   }
 
@@ -73,11 +114,7 @@ export async function onRequestPost(context) {
   }
 
   // 1) Pull conversation history from Chatwoot (visitor + agent text messages)
-  const cwHeaders = { api_access_token: CHATWOOT_API_TOKEN, 'content-type': 'application/json' };
-  const histRes = await fetch(
-    `https://app.chatwoot.com/api/v1/accounts/${CHATWOOT_ACCOUNT_ID}/conversations/${conversationId}/messages`,
-    { headers: cwHeaders }
-  );
+  const histRes = await chatwootApi(env, `/conversations/${conversationId}/messages`);
   if (!histRes.ok) {
     return json({ ok: false, error: `chatwoot history ${histRes.status}` }, 502);
   }
@@ -114,14 +151,10 @@ export async function onRequestPost(context) {
   }
 
   // 3) Post Buddy's reply back into the Chatwoot conversation
-  const replyRes = await fetch(
-    `https://app.chatwoot.com/api/v1/accounts/${CHATWOOT_ACCOUNT_ID}/conversations/${conversationId}/messages`,
-    {
-      method: 'POST',
-      headers: cwHeaders,
-      body: JSON.stringify({ content: output, message_type: 'outgoing', private: false }),
-    }
-  );
+  const replyRes = await chatwootApi(env, `/conversations/${conversationId}/messages`, {
+    method: 'POST',
+    body: JSON.stringify({ content: output, message_type: 'outgoing', private: false }),
+  });
   if (!replyRes.ok) {
     return json({ ok: false, error: `chatwoot reply ${replyRes.status}` }, 502);
   }
@@ -135,7 +168,7 @@ export async function onRequestGet(context) {
     service: 'slamdunk-vapi-chat-bridge',
     target: 'VAPI Buddy Chat Agent',
     configured: Boolean(
-      context.env && context.env.VAPI_API_KEY && context.env.VAPI_ASSISTANT_ID && context.env.CHATWOOT_API_TOKEN
+      context.env && context.env.VAPI_API_KEY && context.env.VAPI_ASSISTANT_ID && context.env.CHATWOOT_SESSION_EMAIL
     ),
   });
 }
