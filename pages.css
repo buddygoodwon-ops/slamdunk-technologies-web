@@ -38,6 +38,8 @@ h1, h2, h3 { font-family: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans
 .hero { display: grid; grid-template-columns: minmax(320px, 420px) 1fr; gap: 0; align-items: stretch; min-height: 720px; }
 .hero-copy { display: flex; flex-direction: column; gap: 26px; justify-content: center; padding: 32px 10px 32px 0; }
 .page-heading { max-width: 410px; margin: 0; font-size: clamp(39.4px, 3.66vw, 53.4px); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
+.page-heading.heading-wide { font-size: clamp(36px, 3.25vw, 46px); letter-spacing: -.03em; }
+.page-heading.mcp-heading { font-size: clamp(27px, 2.3vw, 32px); letter-spacing: -.025em; }
 .page-lede { max-width: 44ch; margin: 0; color: var(--ink); font-size: 16px; line-height: 1.6; }
 
 /* Side bullet list — same as Home page features */

@@ -59,7 +59,7 @@ future_pages = [
    "A knowledge base accessible to both AI and humans, built on Google's new OKF format — so every agent and every teammate draws from the same living source of truth."),
   ('distribution.html', 'Distribution of Intelligence',
    'The right intelligence,<br><span class="grad">in the right hands.</span>',
-   'Distribute intelligence across your organization with delegated permission authority — every agent knows exactly what it can access, act on, and approve.'),
+   'Distribute intelligence across your organization with delegated permission authority — every agent knows exactly what it can access, act on, and approve, and every agent knows what information it is permitted to give every employee.'),
   ('virtual-mascot.html', 'Custom Virtual Company Mascot',
    'A face and personality<br><span class="grad">for your brand.</span>',
    'A custom virtual company mascot creates unique and fun interactions — turning routine support into moments your customers remember.'),
@@ -67,8 +67,8 @@ future_pages = [
    'Your AI team,<br><span class="grad">live in your pocket.</span>',
    'Manage your BuddyFetch AIs through a LIVE avatar app — see your agents, steer their work, and talk with them in real time from anywhere.'),
   ('mcp-server.html', 'MCP Server Conversion of Website',
-   'Make your website<br><span class="grad">AI-native.</span>',
-   'Convert your existing website with an MCP server so AI can interact with it directly — your business becomes part of the agentic web.'),
+   'Make your website<br><span class="grad">AI-native and Human Friendly</span>',
+   'Convert your existing website with an MCP server so AI can interact with it directly — your business becomes part of the agentic web, so it can book appointment, get a quote, or even make a purchase.'),
 ]
 
 def feature_list(items, active_file=None, active_main=None, exclude_active=False):
@@ -106,6 +106,7 @@ future_html = second_home.replace('{{CUSTOM_FEATURES}}', feature_list(custom_fea
 for filename, title, heading, lead in pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'index.html', 'BACK_LABEL': '← Back to home', 'LIST_LABEL': '',
+              'HEADING_CLASS': 'heading-wide' if filename == 'distribution.html' else '',
               'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True),
               'MAIN_MENU_BLOCK': ''}
     (root / filename).write_text(render(template, values), encoding='utf-8')
@@ -115,6 +116,7 @@ for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'future.html', 'BACK_LABEL': '← The Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
+              'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else '',
               'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True),
               'MAIN_MENU_BLOCK': main_menu_block}
     (root / filename).write_text(render(template, values), encoding='utf-8')
