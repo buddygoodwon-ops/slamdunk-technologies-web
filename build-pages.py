@@ -111,14 +111,14 @@ for filename, title, heading, lead in pages:
               'MAIN_MENU_BLOCK': ''}
     (root / filename).write_text(render(template, values), encoding='utf-8')
 
-# 3) Level-down pages (side list = other 4 custom bullets + the home-page bullet points)
+# 3) Level-down pages (side list = the other custom bullets only)
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'future.html', 'BACK_LABEL': '← The Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
               'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else ('heading-wide' if filename == 'distribution.html' else ''),
               'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True),
-              'MAIN_MENU_BLOCK': main_menu_block}
+              'MAIN_MENU_BLOCK': ''}
     (root / filename).write_text(render(template, values), encoding='utf-8')
 
 print(f'built {len(pages)} main pages + future.html (second home) + {len(future_pages)} level-down pages')
