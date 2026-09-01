@@ -1,0 +1,8 @@
+{
+  "name": "slamdunk-technologies-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SlamDunk Technologies website with MCP server endpoint (functions/mcp.js)",
+  "scripts": {}
+}
