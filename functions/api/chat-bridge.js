@@ -43,7 +43,13 @@ async function getChatwootSession(env) {
   if (!email || !password) throw new Error('chatwoot session not configured');
   const res = await fetch(`${CHATWOOT_BASE}/auth/sign_in`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      // Non-browser UA: when Buddy's session cap (5) is reached, Chatwoot auto-evicts
+      // the oldest session for non-Mozilla clients instead of returning the 409 picker.
+      // Browser UAs get a 409 session-picker response that would break this bridge.
+      'user-agent': 'slamdunk-chat-bridge/1.0',
+    },
     body: JSON.stringify({ email, password }),
   });
   if (!res.ok) throw new Error(`chatwoot login ${res.status}`);
