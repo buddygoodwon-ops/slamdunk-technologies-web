@@ -32,6 +32,10 @@ h1, h2, h3 { font-family: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans
 .brand-title .accent, .page-heading .grad, .cta-text strong { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .brand-title .suffix { background: linear-gradient(90deg, #9aa1c2, #5c6389); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .brand-sub { margin-top: 7px; color: #e8eaf3; font-size: 13.6px; font-weight: 600; letter-spacing: .14em; }
+a.brand-sub { text-decoration: underline; text-decoration-color: rgba(139, 108, 240, .65); text-underline-offset: 4px; text-decoration-thickness: 2px; transition: color .15s, text-decoration-color .15s; }
+a.brand-sub:hover { color: #ffffff; text-decoration-color: var(--blue); }
+.lede-link { color: #a98cff; font-weight: 600; text-decoration: underline; text-decoration-color: rgba(139, 108, 240, .55); text-underline-offset: 3px; transition: color .15s, text-decoration-color .15s; }
+.lede-link:hover { color: var(--blue); text-decoration-color: var(--blue); }
 .back-link { color: var(--ink-dim); font-size: 13px; font-weight: 600; }
 .back-link:hover { color: var(--white); }
 
