@@ -13,6 +13,9 @@ pages = [
 for filename, title, kicker, heading, lead, points in pages:
     html = template
     values = {'TITLE': title, 'DESCRIPTION': lead, 'KICKER': kicker, 'HEADING': heading, 'LEAD': lead}
+    active = filename.replace('.html', '')
+    for key in ['WORKFLOWS', 'AGENTS', 'MARKETING', 'SMART', 'FUTURE']:
+        values['ACTIVE_' + key] = 'active' if key.lower() == active else ''
     points_html = ''.join(f'          <li><a class="point-icon" href="#" aria-hidden="true">✦</a><span>{p}</span></li>\n' for p in points)
     values['POINTS'] = points_html
     for key, value in values.items():
