@@ -19,6 +19,20 @@ const SLAMDUNK_INBOX_ID = 133705;
 const MAX_HISTORY = 24;
 const CHATWOOT_BASE = 'https://app.chatwoot.com';
 
+// Chatwoot webhooks send message_type as a STRING ('incoming'/'outgoing'/'activity'/'template'),
+// while the REST API returns integers (0/1/2/3). Normalize both to the numeric form used internally.
+function normalizeMessageType(t) {
+  if (t === undefined || t === null) return t;
+  if (typeof t === 'number') return t;
+  const s = String(t).toLowerCase();
+  if (s === 'incoming' || s === '0') return 0;
+  if (s === 'outgoing' || s === '1') return 1;
+  if (s === 'activity' || s === '2') return 2;
+  if (s === 'template' || s === '3') return 3;
+  const n = Number(s);
+  return Number.isNaN(n) ? t : n;
+}
+
 // Cached devise_token_auth session for the Chatwoot worker account
 let sessionCache = null; // { headers, expiresAt }
 
@@ -96,9 +110,10 @@ export async function onRequestPost(context) {
   }
 
   // message_type: 0=incoming (visitor), 1=outgoing (agent/bot), 2=activity, 3=template
+  // Webhook payloads use string labels; the Chatwoot REST API uses integers. Normalize both.
   const message = payload.message_type !== undefined
-    ? { type: payload.message_type, content: payload.content, id: payload.id }
-    : { type: payload.data?.message?.message_type, content: payload.data?.message?.content, id: payload.data?.message?.id };
+    ? { type: normalizeMessageType(payload.message_type), content: payload.content, id: payload.id }
+    : { type: normalizeMessageType(payload.data?.message?.message_type), content: payload.data?.message?.content, id: payload.data?.message?.id };
   const conversationId = payload.conversation?.id || payload.conversation_id || payload.data?.conversation?.id;
   const inboxId = payload.inbox?.id || payload.data?.inbox?.id;
 
@@ -122,9 +137,15 @@ export async function onRequestPost(context) {
   const items = (histData.payload || histData.data?.messages || [])
     .slice()
     .sort((a, b) => (a.id || 0) - (b.id || 0))
-    .filter((m) => (m.message_type === 0 || m.message_type === 1) && m.content && m.content.trim() !== '')
+    .filter((m) => {
+      const t = normalizeMessageType(m.message_type);
+      return (t === 0 || t === 1) && m.content && m.content.trim() !== '';
+    })
     .slice(-MAX_HISTORY)
-    .map((m) => ({ role: m.message_type === 0 ? 'user' : 'assistant', content: String(m.content).slice(0, 2000) }));
+    .map((m) => {
+      const t = normalizeMessageType(m.message_type);
+      return { role: t === 0 ? 'user' : 'assistant', content: String(m.content).slice(0, 2000) };
+    });
 
   if (!items.length || items[items.length - 1].role !== 'user') {
     items.push({ role: 'user', content: String(message.content).slice(0, 2000) });
