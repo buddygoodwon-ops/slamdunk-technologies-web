@@ -3,7 +3,7 @@ root = Path(__file__).parent
 template = (root / 'page-template.html').read_text(encoding='utf-8')
 second_home = (root / 'second-home-template.html').read_text(encoding='utf-8')
 
-def svg(paths, extra=''):
+def svg(paths):
     return f'<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{paths}</svg>'
 
 # --- Main menu: the 5 original bullets (each icon clickable -> its page) ---
@@ -36,47 +36,53 @@ custom_features = [
    svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/>')),
 ]
 
-# --- The 5 original bullet pages ---
+# --- The 4 original bullet pages (future.html is the Second Home, built separately) ---
+# Headline format matches Home: line 1 white, second line gradient (purple->blue)
 pages = [
-  ('workflows.html', 'AI-Optimized Workflows', 'Your apps. One intelligent flow.',
+  ('workflows.html', 'AI-Optimized Workflows',
+   'Your apps.<br><span class="grad">One intelligent flow.</span>',
    'Connect the tools your team already uses and let an AI operating layer turn scattered work into a clear, repeatable path.'),
-  ('agents.html', 'Autonomous Agents', 'An AI team that keeps moving.',
+  ('agents.html', 'Autonomous Agents',
+   'An AI team<br><span class="grad">that keeps moving.</span>',
    'BuddyFetch agents plan, act, and deliver across complex tasks — with the context and persistence to take work from start to finish.'),
-  ('marketing.html', 'Built-in Marketing Skills', 'More conversations. Less busywork.',
+  ('marketing.html', 'Built-in Marketing Skills',
+   'More conversations.<br><span class="grad">Less busywork.</span>',
    'Put practical marketing execution on demand: research, outreach, follow-up, content, and reporting working together as one growth system.'),
-  ('smart.html', 'Scalable. Smart. Adaptable.', 'A system that gets better under pressure.',
+  ('smart.html', 'Scalable. Smart. Adaptable.',
+   'A system that gets better<br><span class="grad">under pressure.</span>',
    'Build an operating layer that can handle the next client, campaign, and opportunity without rebuilding the business from scratch.'),
 ]
 
 # --- Level-down pages under Wild Wide Open Future ---
 future_pages = [
-  ('custom-agents.html', 'Custom Pre-Loaded Agents', 'Agents ready on day one.',
+  ('custom-agents.html', 'Custom Pre-Loaded Agents',
+   'Agents ready<br><span class="grad">on day one.</span>',
    'BuddyFetch agents arrive pre-loaded and trained for specific tasks — completing defined work or operating specific websites from day one, with no setup marathon required.'),
-  ('company-brain.html', 'Company Brain', 'One brain for your entire company.',
+  ('company-brain.html', 'Company Brain',
+   'One brain<br><span class="grad">for your entire company.</span>',
    "A knowledge base accessible to both AI and humans, built on Google's new OKF format — so every agent and every teammate draws from the same living source of truth."),
-  ('distribution.html', 'Distribution of Intelligence', 'The right intelligence, in the right hands.',
+  ('distribution.html', 'Distribution of Intelligence',
+   'The right intelligence,<br><span class="grad">in the right hands.</span>',
    'Distribute intelligence across your organization with delegated permission authority — every agent knows exactly what it can access, act on, and approve.'),
-  ('virtual-mascot.html', 'Custom Virtual Company Mascot', 'A face and personality for your brand.',
+  ('virtual-mascot.html', 'Custom Virtual Company Mascot',
+   'A face and personality<br><span class="grad">for your brand.</span>',
    'A custom virtual company mascot creates unique and fun interactions — turning routine support into moments your customers remember.'),
-  ('avatar-app.html', 'AI Avatar App', 'Your AI team, live in your pocket.',
+  ('avatar-app.html', 'AI Avatar App',
+   'Your AI team,<br><span class="grad">live in your pocket.</span>',
    'Manage your BuddyFetch AIs through a LIVE avatar app — see your agents, steer their work, and talk with them in real time from anywhere.'),
-  ('mcp-server.html', 'MCP Server Conversion of Website', 'Make your website AI-native.',
+  ('mcp-server.html', 'MCP Server Conversion of Website',
+   'Make your website<br><span class="grad">AI-native.</span>',
    'Convert your existing website with an MCP server so AI can interact with it directly — your business becomes part of the agentic web.'),
 ]
 
-def render(template, values):
-    html = template
-    for key, value in values.items():
-        html = html.replace('{{' + key + '}}', value)
-    return html
-
-def feature_list(items, active_file=None, active_main=None):
+def feature_list(items, active_file=None, active_main=None, exclude_active=False):
     out = []
     for fname, ftitle, fdesc, fic in items:
         is_active = fname == active_file or fname == active_main
-        active = ' active' if is_active else ''
+        if exclude_active and is_active:
+            continue  # current page's bullet hidden -> more room for the paragraph
         out.append(
-            f'          <div class="feature{active}">\n'
+            f'          <div class="feature">\n'
             f'            <a class="feature-icon" href="{fname}" aria-label="{ftitle}">{fic}</a>\n'
             f'            <div>\n'
             f'              <h3><a href="{fname}">{ftitle}</a></h3>\n'
@@ -87,32 +93,31 @@ def feature_list(items, active_file=None, active_main=None):
     return '\n'.join(out)
 
 main_menu_html = feature_list(main_features)
-custom_list_all = feature_list(custom_features)
 
-# 1) Second Home: Wild Wide Open Future
+def render(template, values):
+    html = template
+    for key, value in values.items():
+        html = html.replace('{{' + key + '}}', value)
+    return html
+
+# 1) Second Home: Wild Wide Open Future (keeps ALL custom bullets + full main menu)
 future_html = second_home.replace('{{CUSTOM_FEATURES}}', feature_list(custom_features))
 future_html = future_html.replace('{{MAIN_FEATURES}}', main_menu_html)
 (root / 'future.html').write_text(future_html, encoding='utf-8')
 
-# 2) The 5 original bullet pages (side list = main menu)
+# 2) The 4 standard bullet pages (side list = other 4 main bullets only)
 for filename, title, heading, lead in pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'index.html', 'BACK_LABEL': '← Back to home', 'LIST_LABEL': '',
-              'FEATURES': feature_list(main_features, active_main=filename)}
-    html = template
-    for key, value in values.items():
-        html = html.replace('{{' + key + '}}', value)
-    (root / filename).write_text(html, encoding='utf-8')
+              'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True)}
+    (root / filename).write_text(render(template, values), encoding='utf-8')
 
-# 3) Level-down pages under Wild Wide Open Future (side list = custom bullets)
+# 3) Level-down pages under Wild Wide Open Future (side list = other 5 custom bullets only)
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'future.html', 'BACK_LABEL': '← Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
-              'FEATURES': feature_list(custom_features, active_file=filename)}
-    html = template
-    for key, value in values.items():
-        html = html.replace('{{' + key + '}}', value)
-    (root / filename).write_text(html, encoding='utf-8')
+              'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True)}
+    (root / filename).write_text(render(template, values), encoding='utf-8')
 
 print(f'built {len(pages)} main pages + future.html (second home) + {len(future_pages)} level-down pages')
