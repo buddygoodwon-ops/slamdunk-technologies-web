@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 root = Path(__file__).parent
 template = (root / 'page-template.html').read_text(encoding='utf-8')
@@ -39,36 +40,36 @@ custom_features = [
 # Headline format matches Home: line 1 white, second line gradient (purple->blue)
 pages = [
   ('workflows.html', 'AI-Optimized Workflows',
-   'Your apps.<br><span class="grad">One intelligent flow.</span>',
-   'Connect the tools your team already uses and let an AI operating layer turn scattered work into a clear, repeatable path.'),
+   'Your apps. Our new apps.<br><span class="grad">One intelligent flow.</span>',
+   'Connect the tools your team already uses — your Website, POS, CRM, Fulfillment Software and Scheduling — so info flows with no need to input and export CSV files or manually enter redundant info. We add the tools you are missing, from Live Chat run by an AI worker to configured APIs, Zapier, Cloudflare Webhooks, Endpoints, and Nodes — creating an AI operating layer that turns scattered work into a clear, repeatable path.'),
   ('agents.html', 'Autonomous Agents',
-   'An AI team<br><span class="grad">that keeps moving.</span>',
-   'BuddyFetch agents plan, act, and deliver across complex tasks - with the context and persistence to take work from start to finish.'),
+   'An AI agent team<br><span class="grad">that keeps moving.</span>',
+   'Autonomous Agents. <a class="lede-link" href="https://buddyfetch.ai" target="_blank" rel="noopener noreferrer">BuddyFetch.Ai</a> agents plan, act, and deliver across complex tasks − eliminating repetitive but complex work from data mining to web scraping. Set up the roles, responsibilities, and tasks for each BuddyFetch.Ai agent to handle, from Social Media to Admin, with the context and persistence to take work from start to finish.'),
   ('marketing.html', 'Built in Marketing Skills',
    'More Mining Prospects.<br><span class="grad">More Conversations.</span>',
-   'Marketing execution on demand: Scalable Calling Agents that follow pre-programmed sales funnels to find real interested people, capture their answers, and feed them into your Point of Sale systems - then seamlessly transfer the call to employees prescreened and looking for service or a type of business. Mass email and text outreach campaigns and follow-up workflows. Real-time messaging and returned calls.'),
+   'Built in Marketing Skills. Marketing execution on demand: Scalable Calling Agents that follow pre-programmed sales funnels to find real interested people, capture their answers, and feed them into your Point of Sale systems — then seamlessly transfer the call to employees prescreened and looking for service or a type of business. Mass email and text outreach campaigns and follow-up workflows. Real-time messaging and returned calls.'),
   ('smart.html', 'Scalable. Smart. Adaptable.',
-   'A system that gets better<br><span class="grad">under pressure.</span>',
-   'Build an operating layer that can handle the next client, campaign, and opportunity without rebuilding the business from scratch.'),
+   'A system that gets Better<br><span class="grad">under More Pressure.</span>',
+   'Scalable. Smart. Adaptable. We automated your business and your BuddyFetch.Ai agent handles, maintenance, upgrades and execution including scalability analyzing based on volume and turn times, interpreting when to add more AI Agents or more Humans, anticipating the need to change and adapt; additional Systems and/or refinement of Roles and Delegation. Build an operating layer that can handle the next client, campaign, and opportunity without rebuilding the business from scratch.'),
 ]
 
 # --- Level-down pages under The Wild Wide Open Future ---
 future_pages = [
   ('company-brain.html', 'Company Brain',
-   'One brain<br><span class="grad">for your entire company.</span>',
-   "A knowledge base accessible to both AI and humans, built on Google's new OKF format - so every agent and every teammate draws from the same living source of truth."),
+   'One Brain<br><span class="grad">for your entire Company.</span>',
+   "Company Brain. A knowledge base accessible to both AI and humans, built on Google's new OKF format — so every agent and every teammate draws from the same page, that not only serves up the info but fills it out customized ready to deliver."),
   ('distribution.html', 'Distribution of Intelligence',
    'The right intelligence,<br><span class="grad">in the right hands.</span>',
-   'Distribute intelligence across your organization with delegated permission authority - every agent knows exactly what it can access, act on, and approve, and every agent knows what information it is permitted to give every employee.'),
+   'Distribute intelligence across your organization with delegated permission authority — every agent knows exactly what it can access, act on, and approve, and every agent knows what information it is permitted to give every employee.'),
   ('virtual-mascot.html', 'Custom Virtual Company Mascot',
    'Bring Fun and Functionality<br><span class="grad">to your brand.</span>',
-   'A custom virtual company mascot creates unique and fun interactions - turning routine support into moments your customers remember. Makes that Zoom all that more interesting when an AI Avatar joins the meeting. Yes, we can do that.'),
+   'A custom virtual company mascot creates unique and fun interactions — turning routine support into moments your customers remember. Makes that Zoom all that more interesting when an AI Avatar joins the meeting. Yes, we can do that.'),
   ('avatar-app.html', 'AI Avatar App',
    'Your AI team,<br><span class="grad">live in your pocket.</span>',
-   'Manage your BuddyFetch AIs through a LIVE avatar app - see your agents, steer their work, and talk with them in real time from anywhere.'),
+   "AI Avatar App. Manage your BuddyFetch.AI's Company Mascot through a LIVE avatar app - like a FaceTime call. Plan Strategies, Steer their work, Brainstorm New Ideas and Product Lines, and talk with them in real time from anywhere on your iPhone. Enable Employees to access it too, through the delegated Permission Authority, to do the same. Have it attend your meetings through a Zoom Call. It is Wild!"),
   ('mcp-server.html', 'MCP Server Conversion of Website',
    'Make your website<br><span class="grad">AI-native and Human Friendly</span>',
-   'Convert your existing website with an MCP server so AI can interact with it directly - your business becomes part of the agentic web, so it can book appointment, get a quote, or even make a purchase.'),
+   'Convert your existing website with an MCP server so AI can interact with it directly — your business becomes part of the agentic web, so it can book appointment, get a quote, or even make a purchase.'),
 ]
 
 def feature_list(items, active_file=None, active_main=None, exclude_active=False):
@@ -104,7 +105,8 @@ future_html = second_home.replace('{{CUSTOM_FEATURES}}', feature_list(custom_fea
 
 # 2) The 4 standard bullet pages (side list = other 4 main bullets only)
 for filename, title, heading, lead in pages:
-    values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
+    values = {'TITLE': title, 'DESCRIPTION': re.sub(r'<[^>]+>', '', lead), 'HEADING': heading, 'LEAD': lead,
+              'CTA_TEXT': 'Book a Demo',
               'BACK_HREF': 'index.html', 'BACK_LABEL': 'Back to home', 'LIST_LABEL': '',
               'HEADING_CLASS': 'heading-wide' if filename == 'distribution.html' else '',
               'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True),
@@ -113,7 +115,8 @@ for filename, title, heading, lead in pages:
 
 # 3) Level-down pages (side list = the other custom bullets only)
 for filename, title, heading, lead in future_pages:
-    values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
+    values = {'TITLE': title, 'DESCRIPTION': re.sub(r'<[^>]+>', '', lead), 'HEADING': heading, 'LEAD': lead,
+              'CTA_TEXT': 'Say Hi to Buddy now!' if filename == 'avatar-app.html' else 'Book a Demo',
               'BACK_HREF': 'future.html', 'BACK_LABEL': 'The Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
               'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else ('heading-wide' if filename == 'distribution.html' else ''),
