@@ -21,7 +21,7 @@ main_features = [
 ]
 
 # --- Wild Wide Open Future: custom bullets, each opens one level down ---
-# (Custom Pre-Loaded Agents dropped per Glenn 1:20 AM — too many bullet points)
+# (Custom Pre-Loaded Agents dropped per Glenn 1:20 AM - too many bullet points)
 custom_features = [
   ('company-brain.html', 'Company Brain', 'Accessible by AI and Humans.',
    svg('<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/>')),
@@ -43,10 +43,10 @@ pages = [
    'Connect the tools your team already uses and let an AI operating layer turn scattered work into a clear, repeatable path.'),
   ('agents.html', 'Autonomous Agents',
    'An AI team<br><span class="grad">that keeps moving.</span>',
-   'BuddyFetch agents plan, act, and deliver across complex tasks — with the context and persistence to take work from start to finish.'),
+   'BuddyFetch agents plan, act, and deliver across complex tasks - with the context and persistence to take work from start to finish.'),
   ('marketing.html', 'Built in Marketing Skills',
    'More Mining Prospects.<br><span class="grad">More Conversations.</span>',
-   'Marketing execution on demand: Scalable Calling Agents that follow pre-programmed sales funnels to find real interested people, capture their answers, and feed them into your Point of Sale systems — then seamlessly transfer the call to employees prescreened and looking for service or a type of business. Mass email and text outreach campaigns and follow-up workflows. Real-time messaging and returned calls.'),
+   'Marketing execution on demand: Scalable Calling Agents that follow pre-programmed sales funnels to find real interested people, capture their answers, and feed them into your Point of Sale systems - then seamlessly transfer the call to employees prescreened and looking for service or a type of business. Mass email and text outreach campaigns and follow-up workflows. Real-time messaging and returned calls.'),
   ('smart.html', 'Scalable. Smart. Adaptable.',
    'A system that gets better<br><span class="grad">under pressure.</span>',
    'Build an operating layer that can handle the next client, campaign, and opportunity without rebuilding the business from scratch.'),
@@ -56,19 +56,19 @@ pages = [
 future_pages = [
   ('company-brain.html', 'Company Brain',
    'One brain<br><span class="grad">for your entire company.</span>',
-   "A knowledge base accessible to both AI and humans, built on Google's new OKF format — so every agent and every teammate draws from the same living source of truth."),
+   "A knowledge base accessible to both AI and humans, built on Google's new OKF format - so every agent and every teammate draws from the same living source of truth."),
   ('distribution.html', 'Distribution of Intelligence',
    'The right intelligence,<br><span class="grad">in the right hands.</span>',
-   'Distribute intelligence across your organization with delegated permission authority — every agent knows exactly what it can access, act on, and approve, and every agent knows what information it is permitted to give every employee.'),
+   'Distribute intelligence across your organization with delegated permission authority - every agent knows exactly what it can access, act on, and approve, and every agent knows what information it is permitted to give every employee.'),
   ('virtual-mascot.html', 'Custom Virtual Company Mascot',
    'Bring Fun and Functionality<br><span class="grad">to your brand.</span>',
-   'A custom virtual company mascot creates unique and fun interactions — turning routine support into moments your customers remember. Makes that Zoom all that more interesting when an AI Avatar joins the meeting. Yes, we can do that.'),
+   'A custom virtual company mascot creates unique and fun interactions - turning routine support into moments your customers remember. Makes that Zoom all that more interesting when an AI Avatar joins the meeting. Yes, we can do that.'),
   ('avatar-app.html', 'AI Avatar App',
    'Your AI team,<br><span class="grad">live in your pocket.</span>',
-   'Manage your BuddyFetch AIs through a LIVE avatar app — see your agents, steer their work, and talk with them in real time from anywhere.'),
+   'Manage your BuddyFetch AIs through a LIVE avatar app - see your agents, steer their work, and talk with them in real time from anywhere.'),
   ('mcp-server.html', 'MCP Server Conversion of Website',
    'Make your website<br><span class="grad">AI-native and Human Friendly</span>',
-   'Convert your existing website with an MCP server so AI can interact with it directly — your business becomes part of the agentic web, so it can book appointment, get a quote, or even make a purchase.'),
+   'Convert your existing website with an MCP server so AI can interact with it directly - your business becomes part of the agentic web, so it can book appointment, get a quote, or even make a purchase.'),
 ]
 
 def feature_list(items, active_file=None, active_main=None, exclude_active=False):
@@ -98,14 +98,14 @@ def render(template, values):
         html = html.replace('{{' + key + '}}', value)
     return html
 
-# 1) Second Home: The Wild Wide Open Future (custom bullets ONLY — no home bullets here)
+# 1) Second Home: The Wild Wide Open Future (custom bullets ONLY - no home bullets here)
 future_html = second_home.replace('{{CUSTOM_FEATURES}}', feature_list(custom_features))
 (root / 'future.html').write_text(future_html, encoding='utf-8')
 
 # 2) The 4 standard bullet pages (side list = other 4 main bullets only)
 for filename, title, heading, lead in pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
-              'BACK_HREF': 'index.html', 'BACK_LABEL': '← Back to home', 'LIST_LABEL': '',
+              'BACK_HREF': 'index.html', 'BACK_LABEL': 'Back to home', 'LIST_LABEL': '',
               'HEADING_CLASS': 'heading-wide' if filename == 'distribution.html' else '',
               'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True),
               'MAIN_MENU_BLOCK': ''}
@@ -114,7 +114,7 @@ for filename, title, heading, lead in pages:
 # 3) Level-down pages (side list = the other custom bullets only)
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
-              'BACK_HREF': 'future.html', 'BACK_LABEL': '← The Wild Wide Open Future',
+              'BACK_HREF': 'future.html', 'BACK_LABEL': 'The Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
               'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else ('heading-wide' if filename == 'distribution.html' else ''),
               'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True),
