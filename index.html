@@ -42,7 +42,6 @@
 }
 
   .hero {
-        --diagonal-cut: clamp(44px, 4.1vw, 64px);
         display: grid;
     grid-template-columns: minmax(320px, 420px) 1fr;
     gap: 0;
@@ -51,18 +50,12 @@
 }
 
   .hero-copy {
-        position: relative;
-    z-index: 2;
         display: flex;
     flex-direction: column;
     gap: 26px;
     justify-content: center;
     padding: 32px 10px 32px 0;
 }
-
-  /* The photo stays rectangular; one navy overlay owns the diagonal seam.
-     This avoids two anti-aliased clip paths leaving a visible sliver. */
-  .hero-copy::after { display: none; }
 
   .brand {
         display: flex;
@@ -243,22 +236,9 @@
 
   .hero-photo-frame {
         position: relative;
-    z-index: 1;
     overflow: hidden;
+    clip-path: polygon(9% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
-
-  .hero-photo-frame::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(var(--diagonal-cut) + 2px);
-    height: 100%;
-    background: var(--navy-950);
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
 
   .hero-photo-frame img {
         position: absolute;
@@ -270,12 +250,11 @@
     display: block;
 }
 
-@media (max-width: 980px) {
+  @media (max-width: 980px) {
     .page { padding: 28px 20px 40px; }
     .hero { grid-template-columns: 1fr; min-height: 0; }
     .hero-copy { padding: 0 0 24px; }
-    .hero-photo-frame { min-height: 360px; }
-    .hero-photo-frame::before { display: none; }
+    .hero-photo-frame { clip-path: none; min-height: 360px; }
 }
 </style>
 
