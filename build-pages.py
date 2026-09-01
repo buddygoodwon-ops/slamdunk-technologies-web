@@ -117,7 +117,7 @@ for filename, title, heading, lead in pages:
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': re.sub(r'<[^>]+>', '', lead), 'HEADING': heading, 'LEAD': lead,
               'CTA_TEXT': 'Say Hi to Buddy now!' if filename == 'avatar-app.html' else 'Book a Demo',
-              'BACK_HREF': 'future.html', 'BACK_LABEL': 'The Wild Wide Open Future',
+              'BACK_HREF': 'index.html', 'BACK_LABEL': 'Back to home',
               'LIST_LABEL': 'THE BEGINNING',
               'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else ('heading-wide' if filename == 'distribution.html' else ''),
               'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True),
