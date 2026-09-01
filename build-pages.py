@@ -5,15 +5,15 @@ template = (root / 'page-template.html').read_text(encoding='utf-8')
 # Side bullet list — identical to Home page features (icon, title, tagline, link)
 features = [
   ('workflows.html', 'AI-Optimized Workflows', 'Utilizing new or existing Apps.',
-   '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5l3 3-9.5 9.5 1.5 1.5L10.5 8l3 3"/><path d="M14 2.5l7.5 7.5-2 2L12 4.5z"/><path d="M2.5 21.5l3-3"/></svg>'),
+   '<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5l3 3-9.5 9.5 1.5 1.5L10.5 8l3 3"/><path d="M14 2.5l7.5 7.5-2 2L12 4.5z"/><path d="M2.5 21.5l3-3"/></svg>'),
   ('agents.html', 'Autonomous Agents', 'Managed By Phone, Text &amp; Emails.',
-   '<svg viewBox="0 0 24 24"><polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2" fill="#ffffff"/></svg>'),
+   '<svg width="21.25" height="21.25" viewBox="0 0 24 24"><polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2" fill="#ffffff"/></svg>'),
   ('marketing.html', 'Built In Marketing Skills', 'Mass Calling, Text &amp; Emailing.',
-   '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="10.5" cy="13.5" r="9"/><circle cx="10.5" cy="13.5" r="5.7"/><circle cx="10.5" cy="13.5" r="2.2" fill="#ffffff"/><path d="M21 3 14 10M18.2 3.8l-1.7 1.7M20.2 5.8l-1.7 1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
+   '<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="10.5" cy="13.5" r="9"/><circle cx="10.5" cy="13.5" r="5.7"/><circle cx="10.5" cy="13.5" r="2.2" fill="#ffffff"/><path d="M21 3 14 10M18.2 3.8l-1.7 1.7M20.2 5.8l-1.7 1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
   ('smart.html', 'Scalable. Smart. Adaptable.', 'Consistency, 24/7. Built to scale.',
-   '<svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 10 11l4 4 6-8"/><path d="M15 7h5v5"/></svg>'),
+   '<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 10 11l4 4 6-8"/><path d="M15 7h5v5"/></svg>'),
   ('future.html', 'Wild Wide Open Future', 'Enhanced Features.',
-   '<svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>'),
+   '<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>'),
 ]
 
 pages = [
