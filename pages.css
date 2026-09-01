@@ -33,22 +33,24 @@ h1, h2, h3 { font-family: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans
 .brand-title .suffix { background: linear-gradient(90deg, #9aa1c2, #5c6389); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .brand-sub { margin-top: 7px; color: #e8eaf3; font-size: 13.6px; font-weight: 600; letter-spacing: .14em; }
 .back-link { color: var(--ink-dim); font-size: 13px; font-weight: 600; }
-.back-link:hover, .page-points a:hover { color: var(--white); }
-
-.bullet-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
-.bullet-nav a { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); color: var(--ink-dim); font-size: 13px; font-weight: 600; white-space: nowrap; transition: border-color .15s, color .15s; }
-.bullet-nav a:hover { color: var(--white); border-color: rgba(139,108,240,.7); }
-.bullet-nav a.active { background: var(--gradient); border-color: transparent; color: var(--white); box-shadow: 0 6px 18px rgba(107,90,240,.3); }
+.back-link:hover { color: var(--white); }
 
 .hero { display: grid; grid-template-columns: minmax(320px, 420px) 1fr; gap: 0; align-items: stretch; min-height: 720px; }
-.hero-copy { display: flex; flex-direction: column; gap: 24px; justify-content: center; padding: 32px 30px 32px 0; }
-.page-kicker { color: #b9a6ff; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.hero-copy { display: flex; flex-direction: column; gap: 26px; justify-content: center; padding: 32px 10px 32px 0; }
 .page-heading { max-width: 410px; margin: 0; font-size: clamp(39.4px, 3.66vw, 53.4px); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
-.page-lede { max-width: 410px; margin: 0; color: var(--ink); font-size: 16px; line-height: 1.6; }
-.page-points { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
-.page-points li { display: flex; align-items: flex-start; gap: 12px; color: var(--ink-dim); font-size: 13.5px; line-height: 1.45; }
-.point-icon { display: grid; width: 28px; height: 28px; flex: 0 0 28px; place-items: center; border: 1px solid rgba(139,108,240,.55); border-radius: 50%; color: #fff; font-size: 12px; }
-.page-points a { color: var(--ink); font-weight: 600; }
+.page-lede { max-width: 44ch; margin: 0; color: var(--ink); font-size: 16px; line-height: 1.6; }
+
+/* Side bullet list — same as Home page features */
+.features { display: flex; flex-direction: column; gap: 18px; }
+.feature { display: flex; gap: 16px; align-items: flex-start; }
+.feature-icon { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(139,108,240,0.55); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(139,108,240,0.08); color: inherit; }
+.feature-icon svg { width: 21.25px; height: 21.25px; stroke: #ffffff; }
+.feature h3 { font-size: 15px; font-weight: 600; margin: 0 0 2px; color: var(--ink); }
+.feature p { font-size: 13.5px; line-height: 1.5; color: var(--ink-faint); margin: 0; max-width: none; }
+.feature.active .feature-icon { background: var(--gradient); border-color: transparent; box-shadow: 0 6px 18px rgba(107,90,240,.35); }
+.feature.active h3 a { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.feature h3 a:hover { color: var(--white); }
+
 .cta-row { display: flex; align-items: center; gap: 16px; margin-top: 4px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.09); }
 .cta-text { max-width: 200px; color: var(--ink); font-size: 13px; line-height: 1.5; }
 .cta-text strong { font-size: 14px; font-weight: 600; }
@@ -68,10 +70,9 @@ h1, h2, h3 { font-family: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans
   .brand-sub { font-size: 10px; letter-spacing: .11em; }
   .back-link { font-size: 12px; }
   .hero { grid-template-columns: 1fr; min-height: 0; }
-  .hero-copy { gap: 20px; padding: 18px 0 28px; }
+  .hero-copy { gap: 20px; padding: 0 0 24px; }
   .page-heading { max-width: 680px; font-size: clamp(39.4px, 3.66vw, 53.4px); }
   .page-lede { max-width: 680px; }
-  .page-points { max-width: 680px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
   .cta-row { max-width: 680px; }
   .hero-photo-frame { min-height: 430px; clip-path: none; }
   .hero-photo-frame img { min-height: 430px; object-position: 100% 50%; }
@@ -81,7 +82,6 @@ h1, h2, h3 { font-family: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans
   .page-nav { align-items: flex-start; }
   .back-link { padding-top: 10px; }
   .page-heading { font-size: clamp(39.4px, 3.66vw, 53.4px); }
-  .page-points { grid-template-columns: 1fr; }
   .cta-row { align-items: flex-start; flex-direction: column; }
   .cta-text { max-width: 300px; }
   .cta-button { min-height: 44px; }
