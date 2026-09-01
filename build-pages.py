@@ -16,16 +16,15 @@ main_features = [
    '<svg width="21.25" height="21.25" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="10.5" cy="13.5" r="9"/><circle cx="10.5" cy="13.5" r="5.7"/><circle cx="10.5" cy="13.5" r="2.2" fill="#ffffff"/><path d="M21 3 14 10M18.2 3.8l-1.7 1.7M20.2 5.8l-1.7 1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
   ('smart.html', 'Scalable. Smart. Adaptable.', 'Consistency, 24/7. Built to scale.',
    svg('<path d="M4 17 10 11l4 4 6-8"/><path d="M15 7h5v5"/>')),
-  ('future.html', 'Wild Wide Open Future', 'Enhanced Features.',
+  ('future.html', 'The Wild Wide Open Future', 'Enhanced Features.',
    svg('<path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/>')),
 ]
 
 # --- Wild Wide Open Future: custom bullets, each opens one level down ---
+# (Custom Pre-Loaded Agents dropped per Glenn 1:20 AM — too many bullet points)
 custom_features = [
-  ('custom-agents.html', 'Custom Pre-Loaded Agents', 'Complete certain tasks or operate specific websites.',
-   svg('<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/>')),
   ('company-brain.html', 'Company Brain', "Accessible AI and Humans. Knowledge Base in Google's new OKF format.",
-   svg('<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>')),
+   svg('<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/>')),
   ('distribution.html', 'Distribution of Intelligence', 'Delegated Permission Authority.',
    svg('<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>')),
   ('virtual-mascot.html', 'Custom Virtual Company Mascot', 'Unique and Fun Interactions.',
@@ -53,11 +52,8 @@ pages = [
    'Build an operating layer that can handle the next client, campaign, and opportunity without rebuilding the business from scratch.'),
 ]
 
-# --- Level-down pages under Wild Wide Open Future ---
+# --- Level-down pages under The Wild Wide Open Future ---
 future_pages = [
-  ('custom-agents.html', 'Custom Pre-Loaded Agents',
-   'Agents ready<br><span class="grad">on day one.</span>',
-   'BuddyFetch agents arrive pre-loaded and trained for specific tasks — completing defined work or operating specific websites from day one, with no setup marathon required.'),
   ('company-brain.html', 'Company Brain',
    'One brain<br><span class="grad">for your entire company.</span>',
    "A knowledge base accessible to both AI and humans, built on Google's new OKF format — so every agent and every teammate draws from the same living source of truth."),
@@ -93,6 +89,8 @@ def feature_list(items, active_file=None, active_main=None, exclude_active=False
     return '\n'.join(out)
 
 main_menu_html = feature_list(main_features)
+main_menu_block = ('<div class="section-label">Main Menu</div>\n'
+                   '        <div class="features compact">\n' + main_menu_html + '\n        </div>')
 
 def render(template, values):
     html = template
@@ -100,24 +98,25 @@ def render(template, values):
         html = html.replace('{{' + key + '}}', value)
     return html
 
-# 1) Second Home: Wild Wide Open Future (keeps ALL custom bullets + full main menu)
+# 1) Second Home: The Wild Wide Open Future (custom bullets ONLY — no home bullets here)
 future_html = second_home.replace('{{CUSTOM_FEATURES}}', feature_list(custom_features))
-future_html = future_html.replace('{{MAIN_FEATURES}}', main_menu_html)
 (root / 'future.html').write_text(future_html, encoding='utf-8')
 
 # 2) The 4 standard bullet pages (side list = other 4 main bullets only)
 for filename, title, heading, lead in pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
               'BACK_HREF': 'index.html', 'BACK_LABEL': '← Back to home', 'LIST_LABEL': '',
-              'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True)}
+              'FEATURES': feature_list(main_features, active_main=filename, exclude_active=True),
+              'MAIN_MENU_BLOCK': ''}
     (root / filename).write_text(render(template, values), encoding='utf-8')
 
-# 3) Level-down pages under Wild Wide Open Future (side list = other 5 custom bullets only)
+# 3) Level-down pages (side list = other 4 custom bullets + the home-page bullet points)
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': lead, 'HEADING': heading, 'LEAD': lead,
-              'BACK_HREF': 'future.html', 'BACK_LABEL': '← Wild Wide Open Future',
+              'BACK_HREF': 'future.html', 'BACK_LABEL': '← The Wild Wide Open Future',
               'LIST_LABEL': 'THE BEGINNING',
-              'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True)}
+              'FEATURES': feature_list(custom_features, active_file=filename, exclude_active=True),
+              'MAIN_MENU_BLOCK': main_menu_block}
     (root / filename).write_text(render(template, values), encoding='utf-8')
 
 print(f'built {len(pages)} main pages + future.html (second home) + {len(future_pages)} level-down pages')
