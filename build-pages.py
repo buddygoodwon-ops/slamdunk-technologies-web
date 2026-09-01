@@ -23,7 +23,7 @@ main_features = [
 # --- Wild Wide Open Future: custom bullets, each opens one level down ---
 # (Custom Pre-Loaded Agents dropped per Glenn 1:20 AM — too many bullet points)
 custom_features = [
-  ('company-brain.html', 'Company Brain', "Accessible AI and Humans. Knowledge Base in Google's new OKF format.",
+  ('company-brain.html', 'Company Brain', 'Accessible by AI and Humans.',
    svg('<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/>')),
   ('distribution.html', 'Distribution of Intelligence', 'Delegated Permission Authority.',
    svg('<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>')),
