@@ -14,7 +14,7 @@
   <div class="page">
     <nav class="page-nav" aria-label="Main navigation">
       <a class="brand" href="index.html"><img class="brand-mark" src="assets/dogicon.jpg" alt="SlamDunk logo"><span><h1 class="brand-title">SLAM<span class="accent">DUNK</span> <span class="suffix">TECHNOLOGIES</span></h1><a class="brand-sub" href="https://buddyfetch.ai" target="_blank" rel="noopener noreferrer">POWERED BY BUDDYFETCH.AI</a></span></a>
-      <a class="back-link" href="index.html">â† Back to home</a>
+      <a class="back-link" href="index.html">← Back to home</a>
     </nav>
     <main class="hero">
       <section class="hero-copy">
@@ -26,12 +26,38 @@
         </div>
         <div class="cta-row">
           <div class="cta-text">Work Smarter. More Fun. Deliver Faster.<br><strong>That's a SlamDunk!</strong></div>
-          <a class="cta-button" href="https://calendly.com/glenn-wilbor-birdrockfunding/30min" target="_blank" rel="noopener noreferrer">Book a Demo <span>â†’</span></a>
+          <a class="cta-button" href="https://calendly.com/glenn-wilbor-birdrockfunding/30min" target="_blank" rel="noopener noreferrer">Book a Demo <span>→</span></a>
         </div>
       </section>
       <div class="hero-photo-frame"><img src="assets/hero.jpg" alt="BuddyFetch AI agents at work in a modern office"></div>
     </main>
-    <footer class="page-footer"><span>Â© 2026 SlamDunk Technologies</span><span>Powered by BuddyFetch.AI</span></footer>
+    <footer class="page-footer"><span>© 2026 SlamDunk Technologies</span><span>Powered by BuddyFetch.AI</span></footer>
   </div>
+<script>
+  window.chatwootSettings = {
+    launcherTitle: "Chat with Buddy",
+    position: 'right',
+    locale: 'en',
+    type: 'expanded'
+  };
+  (function(d,t) {
+    var BASE_URL="https://app.chatwoot.com";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: 'w75DuTkaqM5nry2hyCZPVpFz',
+        baseUrl: BASE_URL
+      });
+      // Match launcher icon to SlamDunk site gradient (#8b6cf0 -> #4f8ef7)
+      var st = document.createElement('style');
+      st.textContent = '#chatwoot_widget_launcher, .woot-widget-bubble, .chatwoot-launcher, ' +
+        '.woot-widget-bubble-icon { background: linear-gradient(90deg, #8b6cf0, #4f8ef7) !important; border-radius: 14px; }';
+      document.head.appendChild(st);
+    }
+  })(document,"script");
+</script>
 </body>
 </html>
