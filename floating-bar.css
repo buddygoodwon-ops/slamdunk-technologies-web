@@ -14,7 +14,7 @@
   display:flex;
   align-items:center;
   gap:6px;
-  padding:10px 14px;
+  padding:10px 26px 10px 14px;
   background:var(--fb-bg);
   border:1px solid var(--fb-border);
   border-radius:999px;
@@ -85,7 +85,7 @@
   margin:0 2px;
 }
 @media (max-width: 480px){
-  .footer-bar{ left:12px; right:96px; bottom:18px; padding:8px 10px; gap:4px; overflow:hidden; }
+  .footer-bar{ left:12px; right:84px; bottom:18px; padding:8px 22px 8px 10px; gap:4px; overflow:hidden; }
   .footer-btn{ width:40px; height:40px; flex-shrink:0; }
   .footer-btn.footer-cta{ padding:0 18px; height:44px; font-size:14px; }
   .footer-btn.footer-cta span{ line-height:44px; }
