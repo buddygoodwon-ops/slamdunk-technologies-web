@@ -30,8 +30,9 @@
     if (!w) return;
     var fitted = base * (target / w);
 
-    // sensible bounds: never smaller than 60% of design size, never bigger than 44px
-    var min = base * 0.6, max = 44;
+    // sensible bounds: shrink freely on small screens (never clips the wordmark),
+    // never bigger than 44px
+    var min = 9, max = 44;
     fitted = Math.max(min, Math.min(max, fitted));
     title.style.fontSize = fitted.toFixed(2) + "px";
   }

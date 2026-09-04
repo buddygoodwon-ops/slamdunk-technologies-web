@@ -58,6 +58,26 @@
   stroke-linecap:round;
   stroke-linejoin:round;
 }
+.footer-btn.footer-cta{
+  width:auto;
+  height:40px;
+  padding:0 18px;
+  background:linear-gradient(90deg, #8b6cf0, #4f8ef7);
+  color:#fff;
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow:0 6px 18px rgba(107,90,240,.4);
+}
+.footer-btn.footer-cta span{
+  display:block;
+  line-height:40px;
+}
+.footer-btn.footer-cta:hover{
+  background:linear-gradient(90deg, #7a5be0, #3f7ef7);
+  transform:translateY(-1px);
+}
 .fb-divider{
   width:1px;
   height:26px;
@@ -67,4 +87,6 @@
 @media (max-width: 480px){
   .footer-bar{ bottom:18px; padding:8px 10px; gap:4px; }
   .footer-btn{ width:40px; height:40px; }
+  .footer-btn.footer-cta{ padding:0 14px; height:36px; font-size:12px; }
+  .footer-btn.footer-cta span{ line-height:36px; }
 }
