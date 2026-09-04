@@ -1,0 +1,70 @@
+/* Floating pill footer bar — app-style persistent actions (Glenn 9/3)
+   Same pattern as his reference: centered pill, icon buttons, dividers. Styles the SlamDunk dark theme. */
+:root{
+  --fb-bg: rgba(13,18,38,.86);
+  --fb-border: rgba(255,255,255,.12);
+  --fb-icon: #e9ecf7;
+  --fb-muted: #7b83a8;
+  --fb-shadow:0 8px 24px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+}
+.footer-bar{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 14px;
+  background:var(--fb-bg);
+  border:1px solid var(--fb-border);
+  border-radius:999px;
+  box-shadow:var(--fb-shadow);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  z-index:9998;
+}
+.footer-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  color:var(--fb-icon);
+  transition:background .15s ease, transform .15s ease;
+  text-decoration:none;
+}
+.footer-btn:hover:not(.active){
+  background:rgba(255,255,255,.08);
+  transform:translateY(-1px);
+}
+.footer-btn:active{
+  transform:translateY(0);
+}
+.footer-btn.active{
+  background:linear-gradient(90deg, #8b6cf0, #4f8ef7);
+  color:#fff;
+}
+.footer-btn svg{
+  width:21px;
+  height:21px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.fb-divider{
+  width:1px;
+  height:26px;
+  background:var(--fb-border);
+  margin:0 2px;
+}
+@media (max-width: 480px){
+  .footer-bar{ bottom:18px; padding:8px 10px; gap:4px; }
+  .footer-btn{ width:40px; height:40px; }
+}
