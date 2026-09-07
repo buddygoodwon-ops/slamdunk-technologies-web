@@ -44,7 +44,7 @@ pages = [
    'Connect the tools your team already uses — your Website, POS, CRM, Fulfillment Software and Scheduling — so info flows with no need to input and export CSV files or manually enter redundant info. We add the tools you are missing, from Live Chat run by an AI worker to configured APIs, Zapier, Cloudflare Webhooks, Endpoints, and Nodes — creating an AI operating layer that turns scattered work into a clear, repeatable path.'),
   ('agents.html', 'Autonomous Agents',
    'An AI agent team<br><span class="grad">that keeps moving.</span>',
-   'Autonomous Agents. <a class="lede-link" href="https://buddyfetch.ai" target="_blank" rel="noopener noreferrer">BuddyFetch.Ai</a> agents plan, act, and deliver across complex tasks − eliminating repetitive but complex work from data mining to web scraping. Set up the roles, responsibilities, and tasks for each BuddyFetch.Ai agent to handle, from Social Media to Admin, with the context and persistence to take work from start to finish.'),
+   'Autonomous Agents. <a class="lede-link" href="https://buddyfetch.ai/slamdunk" target="_blank" rel="noopener noreferrer">BuddyFetch.Ai</a> agents plan, act, and deliver across complex tasks − eliminating repetitive but complex work from data mining to web scraping. Set up the roles, responsibilities, and tasks for each BuddyFetch.Ai agent to handle, from Social Media to Admin, with the context and persistence to take work from start to finish.'),
   ('marketing.html', 'Built in Marketing Skills',
    'More Mining Prospects.<br><span class="grad">More Conversations.</span>',
    'Built in Marketing Skills. Marketing execution on demand: Scalable Calling Agents that follow pre-programmed sales funnels to find real interested people, capture their answers, and feed them into your Point of Sale systems — then seamlessly transfer the call to employees prescreened and looking for service or a type of business. Mass email and text outreach campaigns and follow-up workflows. Real-time messaging and returned calls.'),
@@ -117,7 +117,7 @@ for filename, title, heading, lead in pages:
 for filename, title, heading, lead in future_pages:
     values = {'TITLE': title, 'DESCRIPTION': re.sub(r'<[^>]+>', '', lead), 'HEADING': heading, 'LEAD': lead,
               'CTA_TEXT': 'Say Hi to Buddy now!' if filename == 'avatar-app.html' else 'Book a Demo',
-              'CTA_HREF': 'https://buddyfetch.ai' if filename == 'avatar-app.html' else 'https://calendly.com/glenn-wilbor-birdrockfunding/30min',
+              'CTA_HREF': 'https://buddyfetch.ai/slamdunk' if filename == 'avatar-app.html' else 'https://calendly.com/glenn-wilbor-birdrockfunding/30min',
               'BACK_HREF': 'index.html', 'BACK_LABEL': 'Back to home',
               'LIST_LABEL': 'THE BEGINNING',
               'HEADING_CLASS': 'heading-wide mcp-heading' if filename == 'mcp-server.html' else ('heading-wide' if filename == 'distribution.html' else ''),
