@@ -58,10 +58,10 @@
         websiteToken: 'w75DuTkaqM5nry2hyCZPVpFz',
         baseUrl: BASE_URL
       });
-      // Match launcher icon to SlamDunk site gradient (#8b6cf0 -> #4f8ef7)
+      // Match launcher icon to SlamDunk site gradient (blue-shifted #6d78f2 -> #3b8ef7 per Glenn 9/7)
       var st = document.createElement('style');
       st.textContent = '#chatwoot_widget_launcher, .woot-widget-bubble, .chatwoot-launcher, ' +
-        '.woot-widget-bubble-icon { background: linear-gradient(90deg, #8b6cf0, #4f8ef7) !important; border-radius: 14px; }';
+        '.woot-widget-bubble-icon { background: linear-gradient(90deg, #6d78f2, #3b8ef7) !important; border-radius: 14px; }';
       document.head.appendChild(st);
     }
   })(document,"script");
