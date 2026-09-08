@@ -16,6 +16,10 @@
  */
 
 const SLAMDUNK_INBOX_ID = 133705;
+// ProProcessing.online assistant repurposed for SlamDunk website chat on 2026-09-07.
+// Keep this as a code fallback while the Pages secret is updated, so a stale
+// VAPI_ASSISTANT_ID cannot silently route visitors to the old BirdRock agent.
+const SLAMDUNK_CHAT_ASSISTANT_ID = '74e74f38-c879-43dd-8f8c-4e0466fd2317';
 const MAX_HISTORY = 24;
 const CHATWOOT_BASE = 'https://app.chatwoot.com';
 
@@ -100,7 +104,7 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: 'unauthorized' }, 401);
   }
 
-  if (!VAPI_API_KEY || !VAPI_ASSISTANT_ID || !CHATWOOT_ACCOUNT_ID) {
+  if (!VAPI_API_KEY || !CHATWOOT_ACCOUNT_ID) {
     return json({ ok: false, error: 'bridge not configured' }, 500);
   }
 
@@ -164,7 +168,11 @@ export async function onRequestPost(context) {
       Authorization: `Bearer ${VAPI_API_KEY}`,
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ assistantId: VAPI_ASSISTANT_ID, input: items }),
+    body: JSON.stringify({
+      // Route SlamDunk chat to the repurposed ProProcessing assistant.
+      assistantId: SLAMDUNK_CHAT_ASSISTANT_ID,
+      input: items,
+    }),
   });
   const vapiData = await vapiRes.json().catch(() => null);
   if (!vapiRes.ok || !vapiData) {
