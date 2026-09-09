@@ -68,12 +68,18 @@ async function getChatwootSession(env) {
   return headers;
 }
 
-async function chatwootApi(env, path, options = {}) {
+async function chatwootApi(env, path, options = {}, externalHeaders = null) {
   const doCall = async (headers) =>
     fetch(`https://app.chatwoot.com/api/v1/accounts/${env.CHATWOOT_ACCOUNT_ID}${path}`, {
       ...options,
       headers: { ...headers, 'content-type': 'application/json', ...(options.headers || {}) },
     });
+  // Prefer a session passed in by the caller (e.g. the poller's long-lived devise session):
+  // avoids a per-request /auth/sign_in, which Chatwoot rate-limits (~5/60s) → 429 crashes.
+  if (externalHeaders) {
+    let extRes = await doCall(externalHeaders);
+    if (extRes.status !== 401 && extRes.status !== 403) return extRes;
+  }
   let res = await doCall(await getChatwootSession(env));
   if (res.status === 401 || res.status === 403) {
     sessionCache = null;
@@ -138,8 +144,29 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: 'missing conversation id' }, 400);
   }
 
+  // Wrap the Chatwoot/VAPI pipeline so any thrown error (login 429/401, network,
+  // non-JSON response) returns a JSON 502 the poller can retry, instead of an
+  // uncaught crash that surfaces as a Cloudflare HTML 500 page.
+  try {
+    const externalHeaders = {
+      uid: context.request.headers.get('x-cw-uid') || null,
+      client: context.request.headers.get('x-cw-client') || null,
+      'access-token': context.request.headers.get('x-cw-token') || null,
+    };
+    const hasExternal = Boolean(externalHeaders.uid && externalHeaders.client && externalHeaders['access-token']);
+    return await processMessage(context.env, message, conversationId, hasExternal ? externalHeaders : null);
+  } catch (e) {
+    return json({ ok: false, error: `bridge: ${e && e.message ? e.message : String(e)}` }, 502);
+  }
+}
+
+async function processMessage(env, message, conversationId, externalHeaders = null) {
+  const { VAPI_API_KEY, CHATWOOT_ACCOUNT_ID } = env;
+  if (!VAPI_API_KEY || !CHATWOOT_ACCOUNT_ID) {
+    return json({ ok: false, error: 'bridge not configured' }, 500);
+  }
   // 1) Pull conversation history from Chatwoot (visitor + agent text messages)
-  const histRes = await chatwootApi(env, `/conversations/${conversationId}/messages`);
+  const histRes = await chatwootApi(env, `/conversations/${conversationId}/messages`, {}, externalHeaders);
   if (!histRes.ok) {
     return json({ ok: false, error: `chatwoot history ${histRes.status}` }, 502);
   }
@@ -189,7 +216,7 @@ export async function onRequestPost(context) {
   const replyRes = await chatwootApi(env, `/conversations/${conversationId}/messages`, {
     method: 'POST',
     body: JSON.stringify({ content: output, message_type: 'outgoing', private: false }),
-  });
+  }, externalHeaders);
   if (!replyRes.ok) {
     return json({ ok: false, error: `chatwoot reply ${replyRes.status}` }, 502);
   }
