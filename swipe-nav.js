@@ -36,7 +36,7 @@ Swipe left = next page, swipe right = previous page. */
  }
 
  var sx = 0, sy = 0, st = 0, horizontalIntent = false, startedInEdgeZone = false;
-   var EDGE_ZONE = 24; // px from either screen edge where iOS/Chrome native edge-swipe nav can steal the gesture
+   var EDGE_ZONE = 60; // px from either screen edge where iOS/Chrome native edge-swipe nav can steal the gesture
 
  document.addEventListener("touchstart", function (e) {
     if (e.touches.length !== 1) return;
