@@ -35,7 +35,8 @@ Swipe left = next page, swipe right = previous page. */
     }
  }
 
- var sx = 0, sy = 0, st = 0, horizontalIntent = false;
+ var sx = 0, sy = 0, st = 0, horizontalIntent = false, startedInEdgeZone = false;
+   var EDGE_ZONE = 24; // px from either screen edge where iOS/Chrome native edge-swipe nav can steal the gesture
 
  document.addEventListener("touchstart", function (e) {
     if (e.touches.length !== 1) return;
@@ -43,7 +44,13 @@ Swipe left = next page, swipe right = previous page. */
     sy = e.touches[0].clientY;
     st = Date.now();
     horizontalIntent = false;
- }, { passive: true });
+    startedInEdgeZone = (sx <= EDGE_ZONE) || (sx >= window.innerWidth - EDGE_ZONE);
+    // pre-emptively block the browser's own edge-swipe back/forward gesture
+                           // from claiming a touch that starts right at the screen edge
+                           if (startedInEdgeZone && e.cancelable) {
+                              e.preventDefault();
+                           }
+ }, { passive: false });
 
  document.addEventListener("touchmove", function (e) {
     if (e.touches.length !== 1) return;
@@ -54,7 +61,7 @@ Swipe left = next page, swipe right = previous page. */
                            if (!horizontalIntent && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.4) {
                               horizontalIntent = true;
                            }
-    if (horizontalIntent && e.cancelable) {
+    if ((horizontalIntent || startedInEdgeZone) && e.cancelable) {
        e.preventDefault();
     }
  }, { passive: false });
@@ -69,6 +76,7 @@ Swipe left = next page, swipe right = previous page. */
                               go(dx < 0 ? 1 : -1);
                            }
     horizontalIntent = false;
+    startedInEdgeZone = false;
  }, { passive: true });
 
  /* one-time swipe hint pill (phone only) */
