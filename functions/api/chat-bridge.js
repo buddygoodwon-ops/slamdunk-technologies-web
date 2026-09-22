@@ -16,6 +16,14 @@
  */
 
 const SLAMDUNK_INBOX_ID = 133705;
+// Inbox → VAPI chat assistant map (Glenn 9/22: "have VAPI Chat Bot manning my Chatwoot").
+// Each brand site's widget posts to its own inbox; the bridge routes to that brand's agent.
+const INBOX_ASSISTANTS = {
+  133705: '74e74f38-c879-43dd-8f8c-4e0466fd2317', // SlamDunk Technologies Chat Agent
+  139577: 'c13ce732-8d3f-4b7f-b185-783c52580f72', // Americas Best Lenders → Buddy Goodwon Chat Agent (mortgage)
+  139833: '5eabf5c1-af1f-42cc-b51e-26e1fb704b35', // BirdRock Commercial → Buddy BirdRock Commercial
+  139834: 'f17d5e8f-ef94-4721-87c6-b2f529e3d3e0', // BirdRock Management → Lorne Goodwon BRM Property Management
+};
 // ProProcessing.online assistant repurposed for SlamDunk website chat on 2026-09-07.
 // Keep this as a code fallback while the Pages secret is updated, so a stale
 // VAPI_ASSISTANT_ID cannot silently route visitors to the old BirdRock agent.
@@ -133,12 +141,13 @@ export async function onRequestPost(context) {
   const conversationId = payload.conversation?.id || payload.conversation_id || payload.data?.conversation?.id;
   const inboxId = payload.inbox?.id || payload.data?.inbox?.id;
 
-  // Only react to real visitor text messages in the SlamDunk inbox
+  // Only react to real visitor text messages in a VAPI-manned inbox
   if (message.type !== 0 || !message.content || message.content.trim() === '') {
     return json({ ok: true, ignored: 'not an incoming text message' });
   }
-  if (inboxId && inboxId !== SLAMDUNK_INBOX_ID) {
-    return json({ ok: true, ignored: 'other inbox' });
+  const assignedAssistant = INBOX_ASSISTANTS[inboxId];
+  if (!assignedAssistant) {
+    return json({ ok: true, ignored: 'inbox not VAPI-manned' });
   }
   if (!conversationId) {
     return json({ ok: false, error: 'missing conversation id' }, 400);
@@ -196,8 +205,8 @@ async function processMessage(env, message, conversationId, externalHeaders = nu
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      // Route SlamDunk chat to the repurposed ProProcessing assistant.
-      assistantId: SLAMDUNK_CHAT_ASSISTANT_ID,
+      // Route each brand's chat to that brand's VAPI assistant.
+      assistantId: assignedAssistant,
       input: items,
     }),
   });
