@@ -93,7 +93,7 @@ Swipe left = next page, swipe right = previous page. */
  if (window.matchMedia("(max-width: 820px)").matches && !localStorage.getItem("sd_swipe_hint")) {
     var pill = document.createElement("div");
     pill.textContent = "Swipe ← → to explore";
-    pill.style.cssText = "position:fixed;left:50%;bottom:26px;transform:translateX(-50%);" +
+    pill.style.cssText = "position:fixed;left:50%;bottom:96px;transform:translateX(-50%);" +
        "background:linear-gradient(90deg,#8b6cf0,#4f8ef7);color:#fff;font:600 13px Inter,sans-serif;" +
        "padding:9px 16px;border-radius:999px;z-index:9999;box-shadow:0 8px 24px rgba(107,90,240,.45);" +
        "transition:opacity .6s ease;pointer-events:none;opacity:.96;";

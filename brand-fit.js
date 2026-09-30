@@ -33,12 +33,11 @@
     var w = title.scrollWidth;
     if (!w) return;
 
-    // Glenn 9/4: make it 30% larger than the exact span, and let it grow
-    // right up to the edge of the screen, but no further.
-    var fitted = base * ((target * 1.3) / w);
-    var left = title.getBoundingClientRect().left;
-    var maxFit = base * ((window.innerWidth - left - 8) / w);
-    fitted = Math.min(fitted, maxFit);
+    // Fit the wordmark so it fills the available content column exactly and
+    // NEVER overflows it. (The old "+30% / grow to screen edge" made the
+    // wordmark spill past its column, so it clipped under the hero image on
+    // desktop and ran to the viewport edge on mobile - Glenn 9/30.)
+    var fitted = base * (target / w);
 
     // sensible bounds: never tiny, never absurd
     var min = 14, max = 64;
