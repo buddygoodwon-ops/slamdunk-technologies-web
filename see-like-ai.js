@@ -97,7 +97,15 @@
     tt.appendChild(el('h1', 'slai-title', ROBOT + ' See Like AI Sees'));
     tt.appendChild(el('p', 'slai-sub', 'The AI\u2019s-eye view of this page ' + EMDASH + ' ' + (location.pathname === '/' ? '/index.html' : location.pathname)));
     head.appendChild(tt); head.appendChild(el('div', 'slai-spacer'));
-    var close = el('button', 'slai-close', EYE + ' Human view');
+    var close = el('button', 'cta-button slai-close');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Back to Human View');
+    var closeLogo = document.createElement('img');
+    closeLogo.src = 'assets/slamdunk-dog-icon.png';
+    closeLogo.alt = 'SlamDunk';
+    closeLogo.className = 'slai-close-logo';
+    close.appendChild(closeLogo);
+    close.appendChild(document.createTextNode('Back to Human View'));
     close.addEventListener('click', function () { toggle(false); });
     head.appendChild(close);
     wrap.appendChild(head);
