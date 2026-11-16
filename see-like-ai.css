@@ -96,3 +96,8 @@ pre.slai-json { margin: 0; max-height: 260px; overflow: auto; background: #0a102
 .slai-issues .warn .tag { background: rgba(242,184,75,.15); color: var(--slai-warn); }
 .slai-issues .issue .tag { background: rgba(242,96,90,.15); color: var(--slai-bad); }
 .slai-foot { color: var(--slai-dim); font-size: 12px; margin-top: 22px; text-align: center; }
+
+/* 'See Like an AI MCP' button - mirrors the .cta-button ('Say Hi to Buddy') format and color */
+.slai-btn{ border:0; cursor:pointer; font-family:inherit; font-size:14.5px; font-weight:600; -webkit-appearance:none; appearance:none; }
+.slai-btn:hover{ transform: translateY(-1px); }
+

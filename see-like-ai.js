@@ -210,16 +210,26 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggle(false); });
 
   function init() {
+    // "That's a SlamDunk!" still opens the AI view.
     Array.prototype.forEach.call(document.querySelectorAll('a.slamdunk-link'), function (a) {
       a.addEventListener('click', function (e) { e.preventDefault(); toggle(true); });
-      if (!(a.nextSibling && a.nextSibling.classList && a.nextSibling.classList.contains('slai-toggle'))) {
-        var pill = el('button', 'slai-toggle'); pill.type = 'button';
-        pill.appendChild(el('span', 'dot'));
-        pill.appendChild(document.createTextNode(ROBOT + ' See Like AI'));
-        pill.addEventListener('click', function (e) { e.stopPropagation(); toggle(true); });
-        a.parentNode.insertBefore(pill, a.nextSibling);
-      }
     });
+    // Add the "See Like an AI MCP" button ONLY on pages that do NOT already have
+    // the "Say Hi to Buddy" button. It mirrors that button's format and color.
+    var hasSayHi = document.querySelector('a.cta-button[href*="buddyfetch.ai"], a.cta-button[href*="buddyfetch"]');
+    if (!hasSayHi && !document.querySelector('.slai-btn')) {
+      var row = document.querySelector('.cta-row');
+      var text = document.querySelector('.cta-text');
+      var host = (text && row && text.parentNode === row) ? row : (text || row);
+      if (host) {
+        var btn = el('button', 'cta-button slai-btn', 'See Like an AI MCP');
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'See Like an AI MCP');
+        btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(true); });
+        if (host === row && text) row.appendChild(btn);
+        else host.parentNode.insertBefore(btn, host.nextSibling);
+      }
+    }
     var openByLink = /(?:[?&])view=ai\b/.test(location.search) || location.hash === '#ai';
     var remember = false; try { remember = localStorage.getItem(KEY) === '1'; } catch (e) {}
     if (openByLink || remember) toggle(true);
