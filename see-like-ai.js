@@ -96,7 +96,7 @@
     var tt = el('div');
     var h1 = el('h1', 'slai-title');
     var titleLogo = document.createElement('img');
-    titleLogo.src = 'assets/buddyfetch-dog-logo.png';
+    titleLogo.src = 'assets/buddyfetch-robot-logo.png';
     titleLogo.alt = 'BuddyFetch AI';
     titleLogo.className = 'slai-logo';
     h1.appendChild(titleLogo);
