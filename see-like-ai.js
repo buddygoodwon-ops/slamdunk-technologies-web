@@ -94,7 +94,14 @@
 
     var head = el('div', 'slai-head');
     var tt = el('div');
-    tt.appendChild(el('h1', 'slai-title', ROBOT + ' See Like AI Sees'));
+    var h1 = el('h1', 'slai-title');
+    var titleLogo = document.createElement('img');
+    titleLogo.src = 'assets/buddyfetch-dog-logo.png';
+    titleLogo.alt = 'BuddyFetch AI';
+    titleLogo.className = 'slai-logo';
+    h1.appendChild(titleLogo);
+    h1.appendChild(document.createTextNode('See Like AI Sees'));
+    tt.appendChild(h1);
     tt.appendChild(el('p', 'slai-sub', 'The AI\u2019s-eye view of this page ' + EMDASH + ' ' + (location.pathname === '/' ? '/index.html' : location.pathname)));
     head.appendChild(tt); head.appendChild(el('div', 'slai-spacer'));
     var close = el('button', 'cta-button slai-close');
