@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -83,7 +83,7 @@
     }
   }
 </script>
-<meta name="description" content="SlamDunk Library Mode — listen to and chat with our AI brand ambassador. Full-volume voice, text in, text back."/>
+<meta name="description" content="SlamDunk Library Mode â€” listen to and chat with our AI brand ambassador. Full-volume voice, text in, text back."/>
 <style>
 :root{
   --bg:#080d15; --panel:#0f1727; --panel2:#131e33; --line:#233248;
@@ -128,7 +128,7 @@ form{display:flex;gap:8px;margin-top:12px}
 .note{margin-top:14px;color:#6f809a;font-size:11.5px;line-height:1.5}
 a{color:var(--gold)}
 </style>
-<link rel="stylesheet" href="see-like-ai.css?v=2">
+<link rel="stylesheet" href="see-like-ai.css?v=3">
 </head><body>
 <div class="wrap">
   <header class="top">
@@ -144,7 +144,7 @@ a{color:var(--gold)}
       <div id="stage">
         <div class="stage-idle" id="idle">
           <img src="/assets/ginger-avatar-hero.jpg" alt="Ginger" onerror="this.style.display='none'"/>
-          <div><b>Ginger</b> — SlamDunk brand ambassador<br/>Press start to open the room.</div>
+          <div><b>Ginger</b> â€” SlamDunk brand ambassador<br/>Press start to open the room.</div>
         </div>
         <video id="lk-video" autoplay playsinline></video>
       </div>
@@ -163,7 +163,7 @@ a{color:var(--gold)}
         <div class="sys">Text replies come from the SlamDunk agent. Start the room to hear Ginger too.</div>
       </div>
       <form id="f">
-        <input id="ask" placeholder="Type a question for the library…" autocomplete="off"/>
+        <input id="ask" placeholder="Type a question for the libraryâ€¦" autocomplete="off"/>
         <button id="send" type="submit">Send</button>
       </form>
       <div class="note">Library Mode lives on slamdunktechnologies.com only. Full-volume voice + typed answers are the two halves of the same conversation.</div>
@@ -194,7 +194,7 @@ $('vol').addEventListener('input',function(){
 async function startLibrary(){
   try{
     $('start').disabled=true;
-    setStatus('Opening the library…');
+    setStatus('Opening the libraryâ€¦');
     topStatus('Connecting');
     var r=await fetch('/api/avatar-start?room='+encodeURIComponent(ROOM)+'&participant='+encodeURIComponent('library-'+Math.floor(Math.random()*1e5))+'&t='+Date.now());
     if(!r.ok) throw new Error('token HTTP '+r.status);
@@ -214,7 +214,7 @@ async function startLibrary(){
         el.style.display='none';
         document.body.appendChild(el);
         audioEls.push(el);
-        el.play().then(function(){setStatus('Connected. Ginger is live — sound on.');})
+        el.play().then(function(){setStatus('Connected. Ginger is live â€” sound on.');})
           .catch(function(){ $('sound').style.display='inline-block'; setStatus('Connected, but the browser blocked audio. Tap Enable sound.'); });
       }
     });
@@ -231,7 +231,7 @@ async function startLibrary(){
     try{
       var mic=await LivekitClient.createLocalAudioTrack();
       await lkRoom.localParticipant.publishTrack(mic);
-      setStatus('Connected — mic live. Talk to Ginger or type below.');
+      setStatus('Connected â€” mic live. Talk to Ginger or type below.');
     }catch(e){ setStatus('Connected (mic unavailable: '+e.message+').'); }
   }catch(e){
     setStatus('Could not open the library: '+e.message);
@@ -267,7 +267,7 @@ $('f').addEventListener('submit',async function(ev){
   $('ask').value='';
   pushLog('me',text);
   history.push({role:'user',content:text});
-  var btn=$('send'); btn.disabled=true; btn.textContent='…';
+  var btn=$('send'); btn.disabled=true; btn.textContent='â€¦';
   try{
     var r=await fetch('/api/library-ask',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message:text,history:history.slice(-8)})});
     var d=await r.json().catch(function(){return null;});
