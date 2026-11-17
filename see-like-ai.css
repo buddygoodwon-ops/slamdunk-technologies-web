@@ -100,4 +100,10 @@ pre.slai-json { margin: 0; max-height: 260px; overflow: auto; background: #0a102
 /* 'See Like an AI MCP' button - mirrors the .cta-button ('Say Hi to Buddy') format and color */
 .slai-btn{ border:0; cursor:pointer; font-family:inherit; font-size:14.5px; font-weight:600; -webkit-appearance:none; appearance:none; }
 .slai-btn:hover{ transform: translateY(-1px); }
+/* fallback for pages with no CTA row: a reachable floating pill (bottom-left, clears the chat launcher) */
+.slai-floating{ position:fixed; left:16px; bottom:96px; z-index:2147482999; padding:11px 18px; border-radius:999px;
+  color:#fff; background:linear-gradient(90deg,var(--slai-blue1),var(--slai-blue2));
+  box-shadow:0 10px 26px rgba(42,142,247,.45); }
+.slai-floating:hover{ transform:translateY(-1px); }
+@media (max-width:820px){ .slai-floating{ bottom:120px; } }
 

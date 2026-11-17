@@ -229,25 +229,35 @@
     Array.prototype.forEach.call(document.querySelectorAll('a.slamdunk-link'), function (a) {
       a.addEventListener('click', function (e) { e.preventDefault(); toggle(true); });
     });
-    // Add the "See Like an AI MCP" button ONLY on pages that do NOT already have
-    // the "Say Hi to Buddy" button. It mirrors that button's format and color.
-    var hasSayHi = document.querySelector('a.cta-button[href*="buddyfetch.ai"], a.cta-button[href*="buddyfetch"]');
-    if (!hasSayHi && !document.querySelector('.slai-btn')) {
+    // Add the "See Like an AI MCP" button on EVERY page (Glenn 11/16) so any human
+    // can flip into MCP server mode - including pages that also show "Say Hi to Buddy".
+    if (!document.querySelector('.slai-btn')) {
       var row = document.querySelector('.cta-row');
       var text = document.querySelector('.cta-text');
       var host = (text && row && text.parentNode === row) ? row : (text || row);
+      var btn = el('button', 'cta-button slai-btn', 'See Like an AI MCP');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'See Like an AI MCP');
+      btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(true); });
       if (host) {
-        var btn = el('button', 'cta-button slai-btn', 'See Like an AI MCP');
-        btn.type = 'button';
-        btn.setAttribute('aria-label', 'See Like an AI MCP');
-        btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(true); });
         if (host === row && text) row.appendChild(btn);
         else host.parentNode.insertBefore(btn, host.nextSibling);
+      } else {
+        // Pages without a CTA row: floating pill so the toggle is always reachable.
+        btn.classList.add('slai-floating');
+        document.body.appendChild(btn);
       }
     }
+    // Keep humans in MCP server mode while they move around: if they opened a deep
+    // link (?view=ai / #ai) or were already in it, reopen it on this page too.
     var openByLink = /(?:[?&])view=ai\b/.test(location.search) || location.hash === '#ai';
     var remember = false; try { remember = localStorage.getItem(KEY) === '1'; } catch (e) {}
     if (openByLink || remember) toggle(true);
+    // And persist the chosen mode right before leaving via swipe or a link click,
+    // so a human who swipes/click to the next page STAYS in MCP server mode.
+    window.addEventListener('pagehide', function () {
+      try { localStorage.setItem(KEY, document.body.classList.contains('slai-on') ? '1' : '0'); } catch (e) {}
+    });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

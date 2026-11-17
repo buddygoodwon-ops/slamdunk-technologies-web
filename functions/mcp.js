@@ -152,6 +152,68 @@ const PAGES = {
   'book-a-demo.html': 'Book a Demo',
 };
 
+// ---------- JSON-LD structured data (Organization + Offer) ----------
+// Mirrors the JSON-LD embedded in every page <head> and served at /structured-data.json.
+const STRUCTURED_DATA = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': 'https://slamdunktechnologies.com/#organization',
+    name: 'SlamDunk Technologies',
+    alternateName: 'SlamDunk',
+    url: SITE,
+    logo: `${SITE}/assets/dogicon.jpg`,
+    description:
+      'SlamDunk Technologies deploys intelligent BuddyFetch.AI agents for small and medium businesses - an agentic AI operating layer that mines prospects, runs workflows, handles marketing, and adapts to scale, all managed by phone, text, and email.',
+    slogan: 'The Agentic AI Team Working! for You.',
+    parentOrganization: { '@type': 'Organization', name: 'BuddyFetch.AI', url: 'https://www.buddyfetch.ai' },
+    founder: { '@type': 'Person', name: 'Glenn Wilbor', jobTitle: 'Founder & CEO' },
+    foundingLocation: 'San Diego, CA',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '5234 Cushman Place #300',
+      addressLocality: 'San Diego',
+      addressRegion: 'CA',
+      postalCode: '92110',
+      addressCountry: 'US',
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        name: 'Buddy Goodwon',
+        telephone: '+1-619-642-2585',
+        email: 'buddy@buddyfetch.ai',
+        areaServed: 'US',
+        availableLanguage: 'English',
+      },
+    ],
+    sameAs: ['https://www.buddyfetch.ai/slamdunk'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Offer',
+    name: 'MCP Server Conversion of Website',
+    description:
+      'Convert your existing website with an MCP server so AI agents can interact with it directly - book an appointment, get a quote, or even make a purchase.',
+    url: `${SITE}/mcp-server.html`,
+    availability: 'https://schema.org/InStock',
+    category: 'AI SEO / MCP Server Conversion',
+    seller: { '@id': 'https://slamdunktechnologies.com/#organization' },
+    itemOffered: {
+      '@type': 'Service',
+      name: 'MCP Server Conversion of Website',
+      serviceType: 'Agentic AI & MCP Server Conversion',
+      provider: { '@id': 'https://slamdunktechnologies.com/#organization' },
+    },
+    potentialAction: {
+      '@type': 'ReserveAction',
+      target: { '@type': 'EntryPoint', urlTemplate: BOOKING_URL },
+      result: { '@type': 'Reservation', name: '30-minute demo with Glenn Wilbor' },
+    },
+  },
+];
+
 // ---------- helpers ----------
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -274,6 +336,14 @@ const TOOLS = [
     inputSchema: obj({}),
   },
   {
+    name: 'get_structured_data',
+    description:
+      "Get the site's JSON-LD structured data (schema.org): the Organization (SlamDunk Technologies) and Offer (MCP Server Conversion of Website). Use this to cite or mirror how the site describes itself to search engines and AI agents. Also available as a file at " +
+      SITE +
+      '/structured-data.json',
+    inputSchema: obj({}),
+  },
+  {
     name: 'list_services',
     description: 'List everything SlamDunk Technologies offers, with a short description and page link for each.',
     inputSchema: obj({}),
@@ -353,6 +423,9 @@ async function handleTool(name, a, env, ip) {
   switch (name) {
     case 'get_company_brain':
       return text(JSON.stringify(COMPANY_BRAIN, null, 2));
+
+    case 'get_structured_data':
+      return text(JSON.stringify(STRUCTURED_DATA, null, 2));
 
     case 'list_services': {
       const rows = [];
@@ -541,8 +614,9 @@ async function handlePost(request, env) {
             serverInfo: SERVER_INFO,
             instructions:
               'This MCP server exposes SlamDunk Technologies (slamdunktechnologies.com, powered by BuddyFetch.AI). ' +
-              'Use get_company_brain for the knowledge base, list_services or get_page_content for details, book_demo to schedule with the founder, ' +
-              'request_quote for quotes, and start_live_chat / send_text_to_team / send_email_to_team to reach the team.',
+              'Use get_company_brain for the knowledge base, get_structured_data for the site JSON-LD (Organization/Offer schema), ' +
+              'list_services or get_page_content for details, book_demo to schedule with the founder, ' +
+              'request_quote for quotes, and start_live_chat / send_text_to_team / send_email_to_team to reach the team.'
           },
         },
         sessionId
