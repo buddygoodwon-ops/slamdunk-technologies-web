@@ -11,6 +11,12 @@
   var EYE = '\uD83D\uDC41';     // 👁
   var EMDASH = '\u2014';        // —
   var MIDDOT = '\u00B7';        // ·
+  // The site's pages: 5 on Home + 5 under The Wild Wide Open Future (shown in "Entities & structure").
+  var SITE_PAGES = [
+    { label: 'Home', pages: ['AI-Optimized Workflows', 'Autonomous Agents', 'Built In Marketing Skills', 'Scalable. Smart. Adaptable.', 'The Wild Wide Open Future'] },
+    { label: 'The Wild Wide Open Future', pages: ['Company Brain', 'Distribution of Intelligence', 'Custom Virtual Company Mascot', 'MCP Server Conversion of Website', 'AI Avatar App'] }
+  ];
+  var SITE_PAGE_COUNT = SITE_PAGES.reduce(function (n, g) { return n + g.pages.length; }, 0);
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
   function esc(s) { return String(s == null ? '' : s); }
   function clean(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
@@ -145,6 +151,14 @@
     chips.appendChild(chip('headings', String(d.outline.length)));
     chips.appendChild(chip('links', String(d.links.length)));
     cEnt.appendChild(chips);
+    // Structure: the site's 10 pages - 5 on Home, 5 under The Wild Wide Open Future.
+    cEnt.appendChild(el('h3', null, 'Structure ' + EMDASH + ' ' + SITE_PAGE_COUNT + ' pages'));
+    var plist = el('div', 'slai-chips');
+    SITE_PAGES.forEach(function (g) {
+      plist.appendChild(chip(g.label, g.pages.length + ' pages'));
+      g.pages.forEach(function (pg) { plist.appendChild(chip('page', pg)); });
+    });
+    cEnt.appendChild(plist);
     grid.appendChild(cEnt);
 
     var cAct = el('div', 'slai-card');

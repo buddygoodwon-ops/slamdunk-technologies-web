@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 CSS_TAG = '<link rel="stylesheet" href="see-like-ai.css?v=3">'
-JS_TAG = '<script src="see-like-ai.js?v=2"></script>'
+JS_TAG = '<script src="see-like-ai.js?v=3"></script>'
 
 
 def insert_before(raw, close_tag, tag, nl):
@@ -35,7 +35,7 @@ def ensure(path):
 
     # JS
     if "see-like-ai.js" in raw:
-        raw = re.sub(r"see-like-ai\.js\?v=\d+", "see-like-ai.js?v=2", raw)
+        raw = re.sub(r"see-like-ai\.js\?v=\d+", "see-like-ai.js?v=3", raw)
     else:
         out = insert_before(raw, r"</body>", JS_TAG, nl)
         raw = out if out is not None else (raw + nl + JS_TAG)
